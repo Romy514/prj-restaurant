@@ -34,7 +34,11 @@ export class MenuServiceService {
 
   addMenu(nouveauMenu:Menu) : Menu {
     this.http.post<Menu>(this.menuAPI, nouveauMenu).subscribe({
-      next : menu=> 
+      next : menu=> {
+        this.menus.push(menu)
+      },
+      error: err=>console.log("Erreur Ajout Menu", err)
     })
+    return nouveauMenu
   }
 }
