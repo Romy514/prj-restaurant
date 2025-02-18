@@ -1,0 +1,45 @@
+<div class="container mt-5">
+    <div *ngIf="menu; else loading">
+      <h2>Détails du Menu</h2>
+  
+      <div class="card mb-4">
+        <div class="card-header">{{ menu.nom }}</div>
+        <div class="card-body">
+          <p><strong>Statut :</strong> {{ menu.statut }}</p>
+          <p><strong>Description :</strong> {{ menu.description }}</p>
+          <p><strong>Date de création :</strong> {{ menu.date_creation }}</p>
+  
+          <button class="btn btn-info mt-3 mb-4" [routerLink]="['/menus', menu.id, 'plats']">Consulter les plats</button>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="card-header">Modifier le Menu</div>
+        <div class="card-body">
+          <form (ngSubmit)="updateMenu()">
+            <div class="form-group">
+              <label for="nom">Nom</label>
+              <input type="text" id="nom" [(ngModel)]="menu.nom" name="nom" class="form-control" required><br>
+            </div>
+            <div class="form-group">
+              <label for="statut">Statut</label>
+              <input type="text" id="statut" [(ngModel)]="menu.statut" name="statut" class="form-control" required><br>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" [(ngModel)]="menu.description" name="description" class="form-control"></textarea><br>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Mettre à jour</button>
+          </form>
+        </div>
+      </div>
+  
+      <button class="btn btn-danger mt-3" (click)="deleteMenu()">Supprimer ce menu</button>
+    </div>
+  
+    <ng-template #loading>
+      <p>Chargement des détails du menu...</p>
+    </ng-template>
+  </div>
+  
+  

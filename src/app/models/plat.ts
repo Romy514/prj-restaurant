@@ -1,8 +1,8 @@
 export class Plat {
     constructor(
-    private id:number = 0,
-    private menu_id:number =0,
-    private nom:String ="",
-    private calories:number =0
+    public id:number = 0,
+    public menu_id:number =0,
+    public nom:String ="",
+    public calories:number =0
     ){}
 }

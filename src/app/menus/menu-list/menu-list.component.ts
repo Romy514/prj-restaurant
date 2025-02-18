@@ -1,10 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MenuServiceService } from '../../services/menu-service.service';
+import { Menu } from '../../models/menu';
 
 @Component({
   selector: 'app-menu-list',
   templateUrl: './menu-list.component.html',
-  styleUrl: './menu-list.component.css'
+  styleUrls: ['./menu-list.component.css']
 })
-export class MenuListComponent {
+export class MenuListComponent implements OnInit {
+  menus: Menu[] = []; // Stocke la liste des menus
 
+  constructor(private menuService: MenuServiceService) {}
+
+  ngOnInit(): void {
+    this.getMenus();
+  }
+
+  getMenus(): void {
+    this.menuService.getMenus().subscribe((data: Menu[]) => {
+      this.menus = data;
+    });
+  }
 }

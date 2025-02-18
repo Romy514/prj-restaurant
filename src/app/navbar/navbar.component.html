@@ -1,26 +1,31 @@
-<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">ButResto <i class="fa-solid fa-burger"></i></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="true" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="navbar-collapse collapse show" id="navbarColor01" style="">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Accueil
-              <span class="visually-hidden">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Menus</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Plats</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Types de plats</a>
-          </li>
-        </ul>
-      </div>
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+  <div class="container-fluid">
+    
+    <div class="navbar-brand">
+      ButResto <i class="fa-solid fa-burger"></i>
     </div>
-  </nav>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" 
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/menus'" routerLinkActive="active"> Menus</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/plats'" routerLinkActive="active"> Plats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/types-de-plats'" routerLinkActive="active"> Types de Plats</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>

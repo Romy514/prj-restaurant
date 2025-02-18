@@ -7,12 +7,13 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { MenusComponent } from './menus/menus.component';
 import { MenuDetailComponent } from './menus/menu-detail/menu-detail.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { ServicesComponent } from './services/services.component';
 import { MenuItemComponent } from './menus/menu-item/menu-item.component';
 import { MenuListComponent } from './menus/menu-list/menu-list.component';
-import { MenuServiceComponent } from './services/menu-service/menu-service.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { MenuServiceService } from './services/menu-service.service';
+import { PlatItemComponent } from './plats/plat-item/plat-item.component';
+import { PlatListComponent } from './plats/plat-list/plat-list.component';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,10 @@ import { FormsModule } from '@angular/forms';
     MenusComponent,
     MenuDetailComponent,
     NavbarComponent,
-    ServicesComponent,
     MenuItemComponent,
     MenuListComponent,
-    MenuServiceComponent,
+    PlatItemComponent,
+    PlatListComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +33,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [MenuServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,6 +7,6 @@ import { Menu } from '../../models/menu';
   styleUrl: './menu-item.component.css'
 })
 export class MenuItemComponent {
-  @Input()
-  public menu:Menu = new Menu()
+  @Input() menu!: Menu; // Récupère un menu depuis `menu-list`
+
 }

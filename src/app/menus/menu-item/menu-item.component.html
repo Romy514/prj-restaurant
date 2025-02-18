@@ -1,8 +1,13 @@
-<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-    <div class="card-header">{{menu.nom}}</div>
-    <div class="card-body">
-      <h4 class="card-title">{{menu.statut}}</h4>
-      <p class="card-text">{{menu.description}}</p>
-      {{menu.date_creation}}
-    </div>
+<div>
+<div class="card menu-card mb-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span class="fw-bold">{{ menu.nom }}</span>
+    <span class="badge" [ngClass]="menu.statut">{{ menu.statut }}</span>
   </div>
+  <div class="card-body text-center">
+    <p class="card-text">{{ menu.description }}</p>
+    <p class="text-muted small">📅 Créé le : {{ menu.date_creation }}</p>
+    <button class="btn btn-light btn-sm mt-2" [routerLink]="['/menus', menu.id]">Voir détails</button>
+  </div>
+</div>
+</div>

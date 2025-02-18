@@ -1,56 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Menu } from '../models/menu';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuServiceService {
 
-  public menus : Menu[] = []
-
-  readonly host = "http://localhost:3000"
-  readonly menuAPI = this.host+"/menus"
+  readonly menuAPI = environment.apiURL+"/menus"
 
   constructor(
     private http:HttpClient
-  ) {
-    this.http.get<Menu[]>(this.menuAPI).subscribe({
-      next : menus=>{
-        this.menus.length=0;
-        this.menus.push(...menus)
-      },
-      error: err=>console.log("ERREUR LOAD MENU", err)
-    })
-   }
+  ) {}
 
-  getMenus() {
-    return this.menus
+  getMenus() : Observable<Menu[]>{
+    return this.http.get<Menu[]>(this.menuAPI)
   }
 
-  getMenu(id:number) : Menu | undefined {
-    return this.menus.find( m => m.id == id)
+  getMenu(id:number) : Observable<Menu>{
+    return this.http.get<Menu>(this.menuAPI+"/"+id)
   }
 
-  addMenu(nouveauMenu:Menu) : Menu {
-    this.http.post<Menu>(this.menuAPI, nouveauMenu).subscribe({
-      next : menu=> {
-        this.menus.push(menu)
-      },
-      error: err=>console.log("Erreur Ajout Menu", err)
-    })
-    return nouveauMenu
+  addMenu(nouveauMenu:Menu) :  Observable<Menu> {
+    return this.http.post<Menu>(this.menuAPI, nouveauMenu)
   }
 
-  updateMenu(menu: Menu) {
-    this.http.put<Menu>(this.menuAPI).subscribe({
-      next : menuOkBDD=> {
-        const menuIn = this.getMenu(menu.id)
-        if (menuIn){
-          Object.assign(menuIn, menuOkBDD)
-        }
-      },
-      error: err=>console.log("Erreur Modification Menu", err)
-    })
+  updateMenu(id: number, menu: Menu) {
+    return this.http.put<Menu>(this.menuAPI+"/"+menu.id, menu)
   }
+
+    deleteMenu(id: number): Observable<void> {
+      return this.http.delete<void>(`${this.menuAPI}/${id}`);
+    }
 }
