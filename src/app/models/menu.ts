@@ -4,5 +4,4 @@ export class Menu {
     private description:String ="";
     private date_creation:String ="";
     private statut:String ="";
-
 }
