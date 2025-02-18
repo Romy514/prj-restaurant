@@ -41,4 +41,16 @@ export class MenuServiceService {
     })
     return nouveauMenu
   }
+
+  updateMenu(menu: Menu) {
+    this.http.put<Menu>(this.menuAPI).subscribe({
+      next : menuOkBDD=> {
+        const menuIn = this.getMenu(menu.id)
+        if (menuIn){
+          Object.assign(menuIn, menuOkBDD)
+        }
+      },
+      error: err=>console.log("Erreur Modification Menu", err)
+    })
+  }
 }
