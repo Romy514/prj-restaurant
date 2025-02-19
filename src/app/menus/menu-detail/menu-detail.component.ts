@@ -36,16 +36,6 @@ export class MenuDetailComponent implements OnInit {
     });
   }
 
-  // Modifier un menu
-  updateMenu(): void {
-    if (this.menu) {
-      this.menuService.updateMenu(this.menu.id, this.menu).subscribe(() => {
-        alert('Menu modifié avec succès!');
-        this.router.navigate(['/menus']);  // Rediriger vers la liste des menus après modification
-      });
-    }
-  }
-
   // Supprimer un menu
   deleteMenu(): void {
     if (this.menu && this.menu.id) {

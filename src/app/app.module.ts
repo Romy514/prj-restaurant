@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { MenuServiceService } from './services/menu-service.service';
 import { PlatItemComponent } from './plats/plat-item/plat-item.component';
 import { PlatListComponent } from './plats/plat-list/plat-list.component';
+import { MenuEditComponent } from './menus/menu-edit/menu-edit.component';
+import { PlatsEditComponent } from './plats/plats-edit/plats-edit.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { PlatListComponent } from './plats/plat-list/plat-list.component';
     MenuListComponent,
     PlatItemComponent,
     PlatListComponent,
+    MenuEditComponent,
+    PlatsEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +37,7 @@ import { PlatListComponent } from './plats/plat-list/plat-list.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [MenuServiceService],
+  providers: [MenuServiceService, PlatItemComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

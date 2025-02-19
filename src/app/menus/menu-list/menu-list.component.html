@@ -1,7 +1,7 @@
 <div class="menu-list">
     <br><h2>Liste des Menus</h2><br>
 
-    <button type="button" class="btn btn-secondary">Ajouter un menu </button>
+    <button class="btn btn-secondary" [routerLink]="'/menus/edit'">Ajouter un menu</button>
 
     <div *ngFor="let menu of menus" class="menu-item">
       <app-menu-item [menu]="menu"></app-menu-item>
