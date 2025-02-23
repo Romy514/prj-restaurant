@@ -1,9 +1,17 @@
-<div class="card shadow-sm">
-    <div class="card-body">
-      <h5 class="card-title text-center">{{ plat.nom }}</h5>
-      <p class="card-text"> <strong>Calories :</strong> {{ plat.calories }} 
-        <button class="btn btn-primary mt-3" [routerLink]="['/plats', plat.id]">Modifier ce plat</button>
-        <button class="btn btn-danger mt-3" (click)="deletePlat(plat.id)">Supprimer ce plat</button>
-      </p>
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <h5 class="card-title text-center">{{ plat.nom }}</h5>
+    <p class="card-text">
+      <strong>Calories :</strong> {{ plat.calories }}
+    </p>
+
+    <div class="d-flex justify-content-between mt-4">
+      <button class="btn btn-primary" [routerLink]="['/menus', plat.menuId, 'plats', 'edit', plat.id]">
+        Modifier ce plat
+      </button>
+      <button class="btn btn-danger" (click)="deletePlat(plat.id, plat.menuId)">
+        Supprimer ce plat
+      </button>
     </div>
+  </div>
 </div>

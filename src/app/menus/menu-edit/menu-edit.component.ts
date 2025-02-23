@@ -9,9 +9,10 @@ import { Menu } from '../../models/menu';
   styleUrls: ['./menu-edit.component.css']
 })
 export class MenuEditComponent implements OnInit {
-
-  menu: Menu = { id: 0, nom: '', description: '', statut: '', date_creation: '' }; // Menu initialisé
-  isEditMode: boolean = false;  // Mode édition (false = ajout, true = modification)
+  menus: Menu[] = [];
+  menu: Menu = { id: 0, nom: '', description: '', statut: '', date_creation: '' };
+  isEditMode: boolean = false;
+  maxIdMenu: number = 0;
 
   constructor(
     private menuService: MenuServiceService,
@@ -19,60 +20,64 @@ export class MenuEditComponent implements OnInit {
     private router: Router
   ) {}
 
-
   ngOnInit(): void {
-    // Vérifier si l'ID est présent dans l'URL
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id'); // Récupère l'ID du menu dans l'URL
-      if (id) {
-        // Si l'ID existe, on passe en mode édition
-        this.menu.id = +id;
+      const id = Number(params.get('id'));
+
+      if (!isNaN(id) && id > 0) {
         this.isEditMode = true;
-        this.getMenu(this.menu.id);  // Récupérer les détails du menu depuis le service
+        this.getMenu(id);
       } else {
-        // Si l'ID n'est pas présent, on est en mode ajout
-        this.menu = { id: 0, nom: '', description: '', statut: '', date_creation: '' };
         this.isEditMode = false;
       }
     });
+
+    this.menu.date_creation = new Date().toISOString().split('T')[0];
+
+    this.menuService.getMenus().subscribe(data => {
+      this.menus = data;
+      if (this.menus.length > 0) {
+        this.maxIdMenu = Math.max(...this.menus.map(m => m.id));
+      }
+    });
   }
-  
-  // Fonction pour récupérer les détails du menu depuis le service
+
   getMenu(id: number): void {
     this.menuService.getMenu(id).subscribe(
       (data: Menu) => {
-        this.menu = data;  // Remplir le formulaire avec les détails du menu
+        this.menu = data;
       },
       (error) => {
         console.error('Erreur lors du chargement du menu', error);
       }
     );
   }
-  
+
   saveMenu(): void {
+    this.menu.date_creation = new Date().toISOString().split('T')[0]; // Transforme la date en string pour l'API
+
     if (this.isEditMode) {
-      // Mode modification : appel PUT
       this.menuService.updateMenu(this.menu.id, this.menu).subscribe(
-        (updatedMenu: Menu) => {
-          console.log('Menu modifié', updatedMenu);
-          this.router.navigate(['/menus']);  // Rediriger vers la liste des menus
+        () => {
+          alert('Menu modifié avec succès!');
+          this.router.navigate(['/menus']);
         },
         (error) => {
           console.error('Erreur lors de la modification du menu', error);
         }
       );
     } else {
-      // Mode ajout : appel POST
+      this.menu.id = this.maxIdMenu ? this.maxIdMenu + 1 : 1;
+
       this.menuService.addMenu(this.menu).subscribe(
-        (newMenu: Menu) => {
-          console.log('Menu ajouté', newMenu);
-          this.router.navigate(['/menus']);  // Rediriger vers la liste des menus
+        () => {
+          alert('Menu ajouté avec succès!');
+          this.router.navigate(['/menus']);
         },
         (error) => {
-          console.error('Erreur lors de l\'ajout du menu', error);
+          console.error("Erreur lors de l'ajout du menu", error);
         }
       );
     }
   }
-  
 }

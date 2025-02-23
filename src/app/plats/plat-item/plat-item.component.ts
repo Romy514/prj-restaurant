@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PlatServiceService } from '../../services/plat-service.service';
 import { Plat } from '../../models/plat';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plat-item',
@@ -17,13 +17,13 @@ export class PlatItemComponent {
     private router: Router 
   ) {}
 
-  deletePlat(id: number): void {
+  deletePlat(id: number, menuId: number): void {
     this.platService.deletePlat(id).subscribe(
       () => {
-        console.log(`Plat avec l'ID ${id} supprimé`);
-        this.router.navigate(['/plats']);  // Rediriger vers la liste des menus après modification
+        alert(`Plat avec l'ID ${id} supprimé`);
+        this.router.navigate([`/menus/${menuId}`]);
       },
-      (error) => {
+      error => {
         console.error('Erreur lors de la suppression du plat', error);
       }
     );

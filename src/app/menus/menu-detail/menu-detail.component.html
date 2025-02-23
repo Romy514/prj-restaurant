@@ -1,24 +1,31 @@
 <div class="container mt-5">
-    <div *ngIf="menu; else loading">
-      <h2>Détails du Menu</h2>
-  
-      <div class="card mb-4">
-        <div class="card-header">{{ menu.nom }}</div>
-        <div class="card-body">
-          <p><strong>Statut :</strong> {{ menu.statut }}</p>
-          <p><strong>Description :</strong> {{ menu.description }}</p>
-          <p><strong>Date de création :</strong> {{ menu.date_creation }}</p>
-  
-          <button class="btn btn-info mt-3 mb-4" [routerLink]="['/menus', menu.id, 'plats']">Consulter les plats</button>
-        </div>
+  <div *ngIf="menu">
+    <h2>Détails du Menu</h2>
+
+    <div class="card mb-4">
+      <div class="card-header text-center">{{ menu.nom }}</div>
+      <div class="card-body">
+        <p><strong>Statut :</strong> {{ menu.statut }}</p>
+        <p><strong>Description :</strong> {{ menu.description }}</p>
+        <p><strong>Date de création :</strong> {{ menu.date_creation }}</p>
+
+        <button class="btn btn-info mt-3 mb-4 w-100" [routerLink]="['/menus', menu.id, 'plats']">
+          Consulter les plats
+        </button>
       </div>
-      <button class="btn btn-primary mt-3" [routerLink]="['/menus','edit', menu.id]">Modifier ce menu</button>
-      <button class="btn btn-danger mt-3" (click)="deleteMenu()">Supprimer ce menu</button>
     </div>
-  
-    <ng-template #loading>
-      <p>Chargement des détails du menu...</p>
-    </ng-template>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-primary" [routerLink]="['/menus', 'edit', menu.id]">
+        Modifier ce menu
+      </button>
+      <button class="btn btn-danger" (click)="deleteMenu()">
+        Supprimer ce menu
+      </button>
+    </div>
   </div>
-  
-  
+
+  <button class="btn btn-secondary mt-3 w-100" routerLink="/menus">
+    Retour à la liste des menus
+  </button>
+</div>

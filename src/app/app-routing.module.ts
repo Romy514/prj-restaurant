@@ -8,16 +8,14 @@ import { PlatsEditComponent } from './plats/plats-edit/plats-edit.component';
 import { MenuEditComponent } from './menus/menu-edit/menu-edit.component';
 
 const routes: Routes = [
-  { path: '', component: AccueilComponent}, 
+  { path: '', component: AccueilComponent }, 
   { path: 'menus', component: MenuListComponent },
   { path: 'menus/:id', component: MenuDetailComponent }, 
   { path: 'menus/edit/:id', component: MenuEditComponent },
-  { path: 'menus/edit', component: MenuEditComponent },
-  { path: 'menus/:id/plats', component: PlatListComponent },
-  { path: 'plats', component: PlatListComponent },
-  { path: 'plats/edit/:id', component: PlatsEditComponent },
-  { path: 'plats/edit/', component: PlatsEditComponent },
-  { path: '**', redirectTo: 'accueil' } // Redirection vers l'accueil si la route n'existe pas
+  { path: 'menus/:menuId/plats', component: PlatListComponent }, // Correction ici
+  { path: 'menus/:menuId/plats/edit/:id', component: PlatsEditComponent }, // Correction ici
+  { path: 'menus/:menuId/plats/edit', component: PlatsEditComponent }, // Correction ici
+  { path: '**', redirectTo: 'accueil' }
 ];
 
 @NgModule({

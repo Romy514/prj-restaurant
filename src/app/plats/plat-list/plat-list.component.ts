@@ -10,8 +10,8 @@ import { Plat } from '../../models/plat';
 })
 export class PlatListComponent implements OnInit {
 
-  plats: Plat[] = [];   // Liste des plats
-  menuId: number | null = null;  // ID du menu (peut être null)
+  plats: Plat[] = [];
+  menuId: number | null = null;
 
   constructor(
     private platService: PlatServiceService,
@@ -19,33 +19,26 @@ export class PlatListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Récupérer l'ID du menu depuis l'URL, il peut être null
-    this.menuId = +this.route.snapshot.paramMap.get('id')!;  // 'null' si aucun paramètre id n'est trouvé
+    this.route.paramMap.subscribe(params => {
+      this.menuId = Number(params.get('menuId'));
+      console.log(this.menuId)
 
-    // Charger les plats associés à ce menu si un ID est présent
-    this.getPlats();
+      this.getPlats();
+    });
   }
 
   getPlats(): void {
-    // Si un menuId est présent, charger les plats associés à ce menu
+    //Menu dans l'url
     if (this.menuId) {
       this.platService.getPlatsByMenu(this.menuId).subscribe(
-        (data: Plat[]) => {
-          this.plats = data;
-        },
-        error => {
-          console.error('Erreur lors du chargement des plats', error);
-        }
+        (data: Plat[]) => this.plats = data,
+        error => console.error('Erreur lors du chargement des plats par menu', error)
       );
     } else {
-      // Sinon, charger tous les plats
+      //Pas de menu indiqué (accès via /plats)
       this.platService.getPlats().subscribe(
-        (data: Plat[]) => {
-          this.plats = data;
-        },
-        error => {
-          console.error('Erreur lors du chargement des plats', error);
-        }
+        (data: Plat[]) => this.plats = data,
+        error => console.error('Erreur lors du chargement des plats', error)
       );
     }
   }

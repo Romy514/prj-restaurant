@@ -1,17 +1,23 @@
 <div class="container mt-5">
     <h2>Plats du Menu</h2><br>
 
-    <button type="button" class="btn btn-secondary">Ajouter un plat</button>
-  
+    <button type="button" class="btn btn-secondary mb-4" [routerLink]="['/menus', menuId, 'plats', 'edit']">
+      Ajouter un plat
+    </button>
+
     <div *ngIf="plats.length > 0; else noPlats">
-        <div class="col-md-4 mb-4" *ngFor="let plat of plats">
+        <div class="col mb-2" *ngFor="let plat of plats">
             <app-plat-item [plat]="plat"></app-plat-item><br>
         </div>
-        </div>
-  </div>
+    </div>
 
+  <button class="btn btn-secondary mt-3 mb-4" [routerLink]="['/menus',menuId]">
+    Retour au menu
+  </button>
 
   <ng-template #noPlats>
     <p>Aucun plat trouvé pour ce menu.</p>
   </ng-template>
+
+</div>
   

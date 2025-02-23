@@ -1,50 +1,81 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Plat } from '../../models/plat';
 import { PlatServiceService } from '../../services/plat-service.service';
+import { MenuServiceService } from '../../services/menu-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-plats-edit',
   templateUrl: './plats-edit.component.html',
-  styleUrl: './plats-edit.component.css'
+  styleUrls: ['./plats-edit.component.css']
 })
-export class PlatsEditComponent {
-    plat: Plat;  // Menu à afficher ou modifier
-    platId: number = 0; // L'ID du menu dans l'URL
-  
-    constructor(
-      private route: ActivatedRoute, 
-      private menuService: PlatServiceService,  // Service pour interagir avec l'API
-      private router: Router  // Pour la redirection après modification ou suppression
-    ) { 
-      this.plat = new Plat(0,0,"",0)
-    }
-  
-    ngOnInit(): void {
-      // Récupérer l'ID du menu depuis l'URL
-      this.platId = +this.route.snapshot.paramMap.get('id')!; 
-      
-      // Si un ID est trouvé, appeler la méthode pour récupérer les détails du menu
-      if (this.platId) {
-        this.getPlatDetails(this.platId);
+export class PlatsEditComponent implements OnInit {
+  plat: Plat = new Plat();
+  menus: any[] = [];
+  isEditMode: boolean = false;
+  menuId!: number;
+
+  constructor(
+    private platService: PlatServiceService,
+    private menuService: MenuServiceService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.menuId = Number(params.get('menuId'));
+      const platId = Number(params.get('id'));
+
+      if (!isNaN(this.menuId)) {
+        this.plat.menuId = this.menuId;
       }
+
+      if (!isNaN(platId) && platId > 0) {
+        this.isEditMode = true;
+        this.getPlat(platId);
+      } else {
+        this.isEditMode = false;
+      }
+    });
+
+    this.menuService.getMenus().subscribe(data => this.menus = data);
+  }
+
+  getPlat(id: number): void {
+    this.platService.getPlat(id).subscribe(
+      (data: Plat) => this.plat = data,
+      error => console.error('Erreur lors du chargement du plat', error)
+    );
+  }
+
+  /**
+   * Ajoute ou modifie un plat selon le mode actuel
+   */
+  savePlat(): void {
+    if (!this.plat.menuId) {
+      alert('Veuillez sélectionner un menu.');
+      return;
     }
 
-    // Récupérer les détails d'un menu à partir de l'ID
-    getPlatDetails(id: number): void {
-      this.menuService.getPlat(id).subscribe((data: Plat) => {
-        this.plat = data;  // Assigner les données du menu à la variable `menu`
-      });
-    }
-
-    // Modifier un menu
-    updatePlat(): void {
-      if (this.plat) {
-        this.menuService.updatePlat(this.plat.id, this.plat).subscribe(() => {
+    if (this.isEditMode) {
+      // Mise à jour d'un plat
+      this.platService.updatePlat(this.plat.id, this.plat).subscribe(
+        () => {
           alert('Plat modifié avec succès!');
-          this.router.navigate(['/plats']);  // Rediriger vers la liste des menus après modification
-        });
-      }
+          this.router.navigate([`/menus/${this.menuId}/plats`]);
+        },
+        error => console.error('Erreur lors de la modification du plat', error)
+      );
+    } else {
+      // Ajout d'un plat
+      this.platService.addPlat(this.menuId, this.plat).subscribe(
+        () => {
+          alert('Plat ajouté avec succès!');
+          this.router.navigate([`/menus/${this.menuId}/plats`]);
+        },
+        error => console.error("Erreur lors de l'ajout du plat", error)
+      );
     }
-  
+  }
 }
