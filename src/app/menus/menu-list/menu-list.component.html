@@ -7,7 +7,16 @@
     </button>
   </div>
 
-  <div *ngFor="let menu of menus" class="menu-item mb-3">
-    <app-menu-item [menu]="menu"></app-menu-item>
+  <div class="text-center mb-4">
+    <select class="form-select w-auto d-inline" [(ngModel)]="selectedStatus">
+      <option value="all">Tous les statuts</option>
+      <option value="actif">Actif</option>
+      <option value="inactif">Inactif</option>
+    </select>
   </div>
-</div>
+
+  <ng-container *ngFor="let menu of menus">
+    <div *ngIf="selectedStatus === 'all' || menu.statut === selectedStatus" class="menu-item mb-3">
+      <app-menu-item [menu]="menu"></app-menu-item>
+    </div>
+  </ng-container>

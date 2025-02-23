@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./menu-list.component.css']
 })
 export class MenuListComponent implements OnInit {
-  menus: Menu[] = []; // Stocke la liste des menus
+  menus: Menu[] = [];
+  selectedStatus: string = 'all';
 
   constructor(private menuService: MenuServiceService) {}
 
